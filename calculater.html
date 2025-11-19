@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+
+        #calc {
+            display: grid;
+            grid-template-columns: repeat(4, 70px);
+            grid-gap: 10px;
+            padding: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+        }
+
+        button {
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 6px;
+            background: rgb(57, 167, 236);
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: lightsteelblue;
+        }
+
+        #sis {
+            grid-column: span 4;
+            padding: 15px;
+            font-size: 28px;
+            background: rgb(225, 153, 187);
+            border-radius: 6px;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+            text-align: right;
+        }
+
+        #clear {
+            grid-column: span 4;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+
+<div id="calc">
+
+    <div id="sis"></div>
+
+    <button id="1">1</button>
+    <button id="2">2</button>
+    <button id="3">3</button>
+    <button id="add">+</button>
+
+    <button id="4">4</button>
+    <button id="5">5</button>
+    <button id="6">6</button>
+    <button id="sub">-</button>
+
+    <button id="7">7</button>
+    <button id="8">8</button>
+    <button id="9">9</button>
+    <button id="sist">*</button>
+
+    <button id="0">0</button>
+    <button id="point">.</button>
+    <button id="equal">=</button>
+    <button id="div">/</button>
+
+    <button id="clear">Clear</button>
+
+</div>
+
+<script>
+
+    let c = "";
+
+    function updateDisplay() {
+        sis.innerHTML = c;
+    }
+
+    function appendNumber(num) {
+        try {
+            c += num;
+            updateDisplay();
+        } catch (e) {
+            sis.innerHTML = "Error";
+        }
+    }
+
+    function appendOperator(op) {
+        try {
+            if (/[+\-*/.]$/.test(c)) return;
+            if (c === "") return;
+            c += op;
+            updateDisplay();
+        } catch (e) {
+            sis.innerHTML = "Invalid Op";
+        }
+    }
+
+    document.getElementById("0").onclick = () => appendNumber("0");
+    document.getElementById("1").onclick = () => appendNumber("1");
+    document.getElementById("2").onclick = () => appendNumber("2");
+    document.getElementById("3").onclick = () => appendNumber("3");
+    document.getElementById("4").onclick = () => appendNumber("4");
+    document.getElementById("5").onclick = () => appendNumber("5");
+    document.getElementById("6").onclick = () => appendNumber("6");
+    document.getElementById("7").onclick = () => appendNumber("7");
+    document.getElementById("8").onclick = () => appendNumber("8");
+    document.getElementById("9").onclick = () => appendNumber("9");
+
+    document.getElementById("add").onclick  = () => appendOperator("+");
+    document.getElementById("sub").onclick  = () => appendOperator("-");
+    document.getElementById("sist").onclick = () => appendOperator("*");
+    document.getElementById("div").onclick  = () => appendOperator("/");
+
+    document.getElementById("point").onclick = () => {
+        try {
+            if (/[+\-*/.]$/.test(c)) return;
+            let parts = c.split(/[\+\-\*\/]/);
+            if (parts[parts.length - 1].includes(".")) return;
+            c += ".";
+            updateDisplay();
+        } catch (e) {
+            sis.innerHTML = "Invalid Decimal";
+        }
+    };
+
+    document.getElementById("equal").onclick = () => {
+        try {
+            if (c === "") return;
+            c = String(eval(c));
+            updateDisplay();
+        } catch (e) {
+            sis.innerHTML = "Error";
+        }
+    };
+
+    document.getElementById("clear").onclick = () => {
+        try {
+            c = "";
+            updateDisplay();
+        } catch (e) {
+            sis.innerHTML = "";
+        }
+    };
+
+</script>
+
+</body>
+</html>
